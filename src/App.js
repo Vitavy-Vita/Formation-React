@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import TaskItem from './components/TaskItem';
+import Title from "./components/Title";
+// import Form from './components/Form';
 
 function App() {
   // 1 er sera la valeur de votre state
@@ -31,9 +33,7 @@ function App() {
 
   return (
     <main className="bg-slate-900 min-h-screen pt-5 px-10">
-      <h1 className="text-slate-50 text-3xl font-bold text-center mb-10">
-        TODO APP
-      </h1>
+      <Title name={'ToDo-App'}/>
 
       {/* Input pour taper une tache */}
       <form
@@ -67,7 +67,8 @@ function App() {
             La propriété `key` est utilisée pour identifier
             chaque élément enfant générer par la méthode `map`
             */
-            <TaskItem key={index} name={item}></TaskItem>
+          //  <Form />
+            <TaskItem key={index} name={item}/>
           ))}
         </ul>
       </section>
