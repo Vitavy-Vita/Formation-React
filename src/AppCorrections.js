@@ -67,7 +67,11 @@ function App() {
             La propriété `key` est utilisée pour identifier
             chaque élément enfant générer par la méthode `map`
             */
-            <TaskItem key={index} name={item}></TaskItem>
+            <li
+              key={index}
+              className="bg-slate-100 text-center py-4 rounded shadow shadow-slate-400">
+              {item}
+            </li>
           ))}
         </ul>
       </section>
