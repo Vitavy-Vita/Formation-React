@@ -23,9 +23,12 @@ function App() {
 
     localStorage.setItem("my-tasks", JSON.stringify(newArr));
   };
-  const removeItem = function(index){
-// splice
-  }
+  const removeItem = function (index) {
+    const newArr = [...tasks];
+    newArr.splice(index, 1);
+    setTasks(newArr);
+    localStorage.setItem("my-tasks", JSON.stringify(newArr));
+  };
 
   return (
     <main className="bg-slate-900 min-h-screen pt-5 px-10">
@@ -36,7 +39,11 @@ function App() {
       <section className="mt-10 md:w-2/3 mx-auto ">
         <ul className="flex flex-col space-y-5">
           {tasks.map((item, index) => (
-            <TaskItem key={index} removeItem={() => removeItem(index)} name={item}></TaskItem>
+            <TaskItem
+              key={index}
+              removeItem={() => removeItem(index)}
+              name={item}
+            ></TaskItem>
           ))}
         </ul>
       </section>
