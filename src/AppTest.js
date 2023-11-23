@@ -1,8 +1,7 @@
 import TaskItem from "./components/TaskItem";
 import Form from "./components/Form";
-import Logo from "./components/Logo";
+import Title from "./components/Title";
 import { useState } from "react";
-
 
 function App() {
     const [textEntered, setTextEntered] = useState('');
@@ -17,7 +16,7 @@ function App() {
  
   return (
     <main className="bg-slate-900 min-h-screen pt-5 px-10">
-      <Logo img={'%PUBLIC_URL%/img/logo.png'}/>
+      <Title name={"ToDo-App"} />
 
       <Form onChangeHandler={onChangeHandler} addTaskHandler={addTaskHandler}/>
 
