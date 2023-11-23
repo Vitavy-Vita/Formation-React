@@ -4,6 +4,7 @@ import Logo from "./components/Logo";
 import { useState } from "react";
 
 
+
 function App() {
     const [textEntered, setTextEntered] = useState('');
     const [tasks,setTasks] = useState([])    
@@ -17,7 +18,7 @@ function App() {
  
   return (
     <main className="bg-slate-900 min-h-screen pt-5 px-10">
-      <Logo img={'%PUBLIC_URL%/img/logo.png'}/>
+      <Logo img={'/img/logo.png'}/>
 
       <Form onChangeHandler={onChangeHandler} addTaskHandler={addTaskHandler}/>
 
