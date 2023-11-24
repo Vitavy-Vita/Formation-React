@@ -3,7 +3,6 @@ import Form from "./components/Form";
 import Logo from "./components/Logo";
 import { useEffect, useState } from "react";
 
-
 function App() {
   const [textEntered, setTextEntered] = useState("");
   const [tasks, setTasks] = useState([]);
@@ -23,7 +22,7 @@ function App() {
     setTasks(newArr);
 
     localStorage.setItem("my-tasks", JSON.stringify(newArr));
-    
+    setTextEntered("");
   };
   const removeItem = function (index) {
     const newArr = [...tasks];
@@ -31,13 +30,16 @@ function App() {
     setTasks(newArr);
     localStorage.setItem("my-tasks", JSON.stringify(newArr));
   };
-  
 
   return (
     <main className="bg-slate-900 min-h-screen pt-5 px-10">
       <Logo img={"/img/logo.png"} />
 
-      <Form onChangeHandler={onChangeHandler} addTaskHandler={addTaskHandler}  />
+      <Form
+        onChangeHandler={onChangeHandler}
+        addTaskHandler={addTaskHandler}
+        value={textEntered}
+      />
 
       <section className="mt-10 md:w-2/3 mx-auto ">
         <ul className="flex flex-col space-y-5">
@@ -48,7 +50,6 @@ function App() {
               name={item}
             ></TaskItem>
           ))}
-
         </ul>
       </section>
     </main>
