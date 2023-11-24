@@ -13,7 +13,7 @@ export default function Inputs(props) {
       <h2 className="mx-5">{props.title}</h2>
       <form className="bg-white flex justify-between items-center border-2 m-5 pl-2 rounded-md ">
         {chooseIcon()}
-        <input onChange={props.onSubmitHandler} className=" m-3 w-7"></input>
+        <input onChange={props.onSubmitHandler} className=" m-3 w-10"></input>
       </form>
     </div>
   );
