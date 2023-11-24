@@ -22,6 +22,7 @@ function App() {
     setTasks(newArr);
 
     localStorage.setItem("my-tasks", JSON.stringify(newArr));
+    
   };
   const removeItem = function (index) {
     const newArr = [...tasks];
@@ -29,12 +30,13 @@ function App() {
     setTasks(newArr);
     localStorage.setItem("my-tasks", JSON.stringify(newArr));
   };
+  
 
   return (
     <main className="bg-slate-900 min-h-screen pt-5 px-10">
       <Logo img={"/img/logo.png"} />
 
-      <Form onChangeHandler={onChangeHandler} addTaskHandler={addTaskHandler} />
+      <Form onChangeHandler={onChangeHandler} addTaskHandler={addTaskHandler}  />
 
       <section className="mt-10 md:w-2/3 mx-auto ">
         <ul className="flex flex-col space-y-5">
