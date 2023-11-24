@@ -3,6 +3,7 @@ import Form from "./components/Form";
 import Logo from "./components/Logo";
 import { useEffect, useState } from "react";
 
+
 function App() {
   const [textEntered, setTextEntered] = useState("");
   const [tasks, setTasks] = useState([]);
@@ -47,6 +48,7 @@ function App() {
               name={item}
             ></TaskItem>
           ))}
+
         </ul>
       </section>
     </main>
