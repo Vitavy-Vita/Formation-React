@@ -19,12 +19,13 @@ function App() {
   };
 
   const getValue = function (value) {
+    setTipPerPeople(value);
+    console.log(value)
     return value;
   };
 
   useEffect(() => {
     displayTotal();
-    setTipPerPeople();
   }, [sumEntered, numberOfPeople, tipPerPeople]);
 
   const displayTotal = function () {
@@ -35,7 +36,7 @@ function App() {
     const bill = parseFloat(sumEntered);
     const people = parseFloat(numberOfPeople);
     const tip = parseFloat(tipPerPeople);
-    const totalTips = bill * (getValue(tip) / 100);
+    const totalTips = bill * (tip / 100);
     setTipPerPeople(totalTips / people);
     console.log(tip);
     const total = (bill / people).toFixed(2) + tip;
@@ -64,7 +65,11 @@ function App() {
           <h2 className="text-start mx-5">Select Tip %</h2>
           <section className="grid grid-cols-3 gap-4">
             {tipValues.map((value, index) => (
-              <TipValue key={index} value={value} onClick={getValue(value)} />
+              <TipValue
+                key={index}
+                value={value}
+                onClick={() => getValue(value)}
+              />
             ))}
           </section>
           <Inputs
