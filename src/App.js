@@ -20,7 +20,7 @@ function App() {
 
   const getValue = function (value) {
     setTipPerPeople(value);
-    console.log(value)
+    console.log("value")
     return value;
   };
 
@@ -35,7 +35,7 @@ function App() {
 
     const bill = parseFloat(sumEntered);
     const people = parseFloat(numberOfPeople);
-    const tip = parseFloat(tipPerPeople);
+    const tip = tipValues.key
     const totalTips = bill * (tip / 100);
     setTipPerPeople(totalTips / people);
     console.log(tip);
