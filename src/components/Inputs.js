@@ -10,7 +10,7 @@ export default function Inputs(props) {
       <form className="bg-white flex justify-between items-center border-2 m-5  rounded-md ">
         <label className="absolute pl-2">{chooseIcon()}</label>
         <input
-        value={props.value}
+          value={props.value}
           onChange={props.onSubmitHandler}
           className="w-full text-right p-3"
         ></input>

@@ -8,6 +8,7 @@ function App() {
   const [sumEntered, setSumEntered] = useState("");
   const [numberOfPeople, setNumberOfPeople] = useState(1);
   const [totalPerPerson, setTotalPerPerson] = useState("0.00");
+  const [tipPerPeople, setTipPerPeople] = useState(0);
   const tipValues = [0.05, 0.1, 0.15, 0.2, 0.5];
   const onSubmitHandler = function (event) {
     setSumEntered(event.target.value);
@@ -23,7 +24,8 @@ function App() {
 
   useEffect(() => {
     displayTotal();
-  }, [sumEntered, numberOfPeople]);
+    setTipPerPeople();
+  }, [sumEntered, numberOfPeople, tipPerPeople]);
 
   const displayTotal = function () {
     if (sumEntered === "" || numberOfPeople === 0) {
@@ -32,8 +34,11 @@ function App() {
 
     const bill = parseFloat(sumEntered);
     const people = parseFloat(numberOfPeople);
-
-    const total = (bill / people).toFixed(2);
+    const tip = parseFloat(tipPerPeople);
+    const totalTips = bill * (getValue(tip) / 100);
+    setTipPerPeople(totalTips / people);
+    console.log(tip);
+    const total = (bill / people).toFixed(2) + tip;
     setTotalPerPerson(total);
 
     return total;
@@ -71,7 +76,7 @@ function App() {
         </article>
         <article className="bg-blue-500 m-10 py-20">
           <Total
-            value={totalPerPerson}
+            value={tipPerPeople}
             title={`Tip Amount
         /person`}
           />
