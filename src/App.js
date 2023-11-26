@@ -8,11 +8,11 @@ function App() {
   const [sumEntered, setSumEntered] = useState("");
   const [numberOfPeople, setNumberOfPeople] = useState(1);
   const [totalPerPerson, setTotalPerPerson] = useState("0.00");
-  const tipValues = [0.05, 0.10, 0.15, 0.20, 0.50];
+  const tipValues = [0.05, 0.1, 0.15, 0.2, 0.5];
   const onSubmitHandler = function (event) {
     setSumEntered(event.target.value);
   };
-  
+
   const getNumberOfPeople = function (event) {
     setNumberOfPeople(event.target.value);
   };
@@ -40,7 +40,9 @@ function App() {
   };
 
   const handleReset = function () {
+    setTotalPerPerson("0.00");
     setSumEntered("");
+    setNumberOfPeople(1);
   };
 
   return (
@@ -59,7 +61,6 @@ function App() {
             {tipValues.map((value, index) => (
               <TipValue key={index} value={value} onClick={getValue(value)} />
             ))}
-            
           </section>
           <Inputs
             title={"Number of People"}
