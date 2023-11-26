@@ -2,28 +2,45 @@ import Title from "./components/Title";
 import Inputs from "./components/Inputs";
 import TipValue from "./components/TipValue";
 import Total from "./components/Total";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
   const [sumEntered, setSumEntered] = useState("");
   const [numberOfPeople, setNumberOfPeople] = useState(1);
-  const tipValues = [5, 10, 15, 20, 50];
+  const [totalPerPerson, setTotalPerPerson] = useState("0.00");
+  const tipValues = [0.05, 0.10, 0.15, 0.20, 0.50];
   const onSubmitHandler = function (event) {
     setSumEntered(event.target.value);
-    console.log(sumEntered);
   };
+  
   const getNumberOfPeople = function (event) {
     setNumberOfPeople(event.target.value);
-    console.log(numberOfPeople);
-  };
-  const getValue = function (value) {
-    return console.log(value);
   };
 
+  const getValue = function (value) {
+    return value;
+  };
+
+  useEffect(() => {
+    displayTotal();
+  }, [sumEntered, numberOfPeople]);
+
   const displayTotal = function () {
-    const billAmount = parseFloat(onSubmitHandler())
-    const amountPerPerson = billAmount / getNumberOfPeople();
-    return amountPerPerson
+    if (sumEntered === "" || numberOfPeople === 0) {
+      return totalPerPerson;
+    }
+
+    const bill = parseFloat(sumEntered);
+    const people = parseFloat(numberOfPeople);
+
+    const total = (bill / people).toFixed(2);
+    setTotalPerPerson(total);
+
+    return total;
+  };
+
+  const handleReset = function () {
+    setSumEntered("");
   };
 
   return (
@@ -42,29 +59,30 @@ function App() {
             {tipValues.map((value, index) => (
               <TipValue key={index} value={value} onClick={getValue(value)} />
             ))}
+            
           </section>
           <Inputs
             title={"Number of People"}
             iconType={"person"}
             onSubmitHandler={getNumberOfPeople}
             value={numberOfPeople}
-            
           />
         </article>
         <article className="bg-blue-500 m-10 py-20">
           <Total
-          
+            value={totalPerPerson}
             title={`Tip Amount
         /person`}
           />
           <Total
-          onChange={displayTotal}
-          value={displayTotal}
+            onChange={displayTotal}
+            value={totalPerPerson}
             title={`Total
         /person`}
-
           />
-          <button className="bg-slate-100">Reset</button>
+          <button className="bg-slate-100" onClick={handleReset}>
+            Reset
+          </button>
         </article>
       </section>
     </main>
