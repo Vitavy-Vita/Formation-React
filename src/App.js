@@ -24,10 +24,17 @@ function App() {
     console.log(value);
   };
   const getCustomValue = function (event) {
-    setCustomTip(event.target.value);
-    console.log(customTip)
+    const customTipValue = event.target.value;
+    setTipPerPeople(customTipValue);
+    const customTipPercentage = parseFloat(customTipValue);
+
+    if (!isNaN(customTipPercentage)) {
+      setTipPerPeople(customTipPercentage);
+    } else {
+      setTipPerPeople(0);
+    }
   };
-  
+
   const displayTotal = function () {
     if (sumEntered && tipPerPeople && numberOfPeople) {
       const bill = parseFloat(sumEntered);
@@ -60,6 +67,7 @@ function App() {
     setTipPerPeople("0.00");
     setSumEntered("");
     setNumberOfPeople(1);
+    setCustomTip("CUSTOM");
   };
 
   return (
@@ -102,7 +110,6 @@ function App() {
         /person`}
           />
           <Total
-            onChange={displayTotal}
             value={displayTotal()}
             title={`Total
         /person`}
