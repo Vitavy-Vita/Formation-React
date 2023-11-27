@@ -9,7 +9,7 @@ function App() {
   const [numberOfPeople, setNumberOfPeople] = useState(1);
   const [totalPerPerson, setTotalPerPerson] = useState("0.00");
   const [tipPerPeople, setTipPerPeople] = useState(0);
-  const tipValues = [0.05, 0.1, 0.15, 0.2, 0.5];
+  const tipValues = [5, 10, 15, 20, 50];
   const onSubmitHandler = function (event) {
     setSumEntered(event.target.value);
   };
