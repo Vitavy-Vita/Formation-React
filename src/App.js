@@ -3,12 +3,12 @@ import Inputs from "./components/Inputs";
 import TipValue from "./components/TipValue";
 import Total from "./components/Total";
 import CustomTip from "./components/CustomTip";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 function App() {
   const [sumEntered, setSumEntered] = useState("");
   const [numberOfPeople, setNumberOfPeople] = useState(1);
-  const [totalPerPerson, setTotalPerPerson] = useState("0.00");
+  const [customTip, setCustomTip] = useState("");
   const [tipPerPeople, setTipPerPeople] = useState(0);
   const tipValues = [5, 10, 15, 20, 50];
   const onSubmitHandler = function (event) {
@@ -23,15 +23,18 @@ function App() {
     setTipPerPeople(value);
     console.log(value);
   };
-
+  const getCustomValue = function (event) {
+    setCustomTip(event.target.value);
+    console.log(customTip)
+  };
+  
   const displayTotal = function () {
     if (sumEntered && tipPerPeople && numberOfPeople) {
       const bill = parseFloat(sumEntered);
       const people = parseFloat(numberOfPeople);
       const tip = tipPerPeople;
       const totalTips = bill * (tip / 100);
-      const total = ((bill / people) + totalTips).toFixed(2);
-
+      const total = (bill / people + totalTips).toFixed(2);
 
       return total;
     } else {
@@ -39,23 +42,21 @@ function App() {
     }
   };
 
-  const displayTotalTip = function(){
+  const displayTotalTip = function () {
     if (sumEntered && tipPerPeople && numberOfPeople) {
       const bill = parseFloat(sumEntered);
       const people = parseFloat(numberOfPeople);
       const tip = tipPerPeople;
       const totalTips = bill * (tip / 100);
-      console.log(tip);
-      const total = (totalTips / people).toFixed(2)
+      const total = (totalTips / people).toFixed(2);
 
       return total;
     } else {
       return "0";
     }
-  }
+  };
 
   const handleReset = function () {
-    setTotalPerPerson("0.00");
     setTipPerPeople("0.00");
     setSumEntered("");
     setNumberOfPeople(1);
@@ -81,6 +82,11 @@ function App() {
                 onClickHandler={() => getValue(value)}
               />
             ))}
+            <CustomTip
+              placeholder={"Custom"}
+              onSubmitHandler={getCustomValue}
+              value={customTip}
+            />
           </section>
           <Inputs
             title={"Number of People"}
