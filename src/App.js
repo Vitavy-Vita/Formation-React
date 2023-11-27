@@ -7,7 +7,7 @@ import { useState } from "react";
 
 function App() {
   const [sumEntered, setSumEntered] = useState("");
-  const [numberOfPeople, setNumberOfPeople] = useState(1);
+  const [numberOfPeople, setNumberOfPeople] = useState(0);
   const [customTip, setCustomTip] = useState("");
   const [tipPerPeople, setTipPerPeople] = useState(0);
   const tipValues = [5, 10, 15, 20, 50];
@@ -25,7 +25,6 @@ function App() {
   };
   const getCustomValue = function (event) {
     const customTipValue = event.target.value;
-    setTipPerPeople(customTipValue);
     const customTipPercentage = parseFloat(customTipValue);
 
     if (!isNaN(customTipPercentage)) {
@@ -64,61 +63,66 @@ function App() {
   };
 
   const handleReset = function () {
-    setTipPerPeople("0.00");
-    setSumEntered("");
-    setNumberOfPeople(1);
-    setCustomTip("CUSTOM");
+    document.location.reload();
   };
 
   return (
-    <main className="bg-blue-500 min-h-screen text-center">
+    <main className="bg-blue-500 min-h-screen mx:auto w-full text-center content-center">
       <Title name={"TIPTOP CALC"} />
-      <section className="flex justify-between items-center bg-slate-100">
-        <article className=" md:w-2/3 mx:auto">
-          <Inputs
-            title={"Bill"}
-            iconType={"dollar"}
-            onSubmitHandler={onSubmitHandler}
-            value={sumEntered}
-          />
-          <h2 className="text-start mx-5">Select Tip %</h2>
-          <section className="grid grid-cols-3 gap-4">
-            {tipValues.map((value) => (
-              <TipValue
-                key={value}
-                value={value}
-                onClickHandler={() => getValue(value)}
-              />
-            ))}
-            <CustomTip
-              placeholder={"Custom"}
-              onSubmitHandler={getCustomValue}
-              value={customTip}
+      <div
+        className="flex justify-center items-center
+      "
+      >
+        <section className="flex justify-center items-center bg-slate-100 max-w-screen-md rounded">
+          <article className=" ">
+            <Inputs
+              title={"Bill"}
+              iconType={"dollar"}
+              onSubmitHandler={onSubmitHandler}
+              value={sumEntered}
             />
-          </section>
-          <Inputs
-            title={"Number of People"}
-            iconType={"person"}
-            onSubmitHandler={getNumberOfPeople}
-            value={numberOfPeople}
-          />
-        </article>
-        <article className="bg-blue-500 m-10 py-20">
-          <Total
-            value={displayTotalTip()}
-            title={`Tip Amount
+            <h2 className="text-start mx-5">Select Tip %</h2>
+            <section className="grid grid-cols-3 gap-4">
+              {tipValues.map((value) => (
+                <TipValue
+                  key={value}
+                  value={value}
+                  onClickHandler={() => getValue(value)}
+                />
+              ))}
+              <CustomTip
+                placeholder={"CUSTOM"}
+                onSubmitHandler={getCustomValue}
+                value={customTip}
+              />
+            </section>
+            <Inputs
+              title={"Number of People"}
+              iconType={"person"}
+              onSubmitHandler={getNumberOfPeople}
+              value={numberOfPeople}
+            />
+          </article>
+          <article className="bg-blue-500 m-10 py-20 rounded">
+            <Total
+              value={displayTotalTip()}
+              title={`Tip Amount
         /person`}
-          />
-          <Total
-            value={displayTotal()}
-            title={`Total
+            />
+            <Total
+              value={displayTotal()}
+              title={`Total
         /person`}
-          />
-          <button className="bg-slate-100" onClick={handleReset}>
-            Reset
-          </button>
-        </article>
-      </section>
+            />
+            <button
+              className="bg-slate-100 text-blue-500 px-20 rounded-sm hover:text-blue-800 hover:bg-slate-300"
+              onClick={handleReset}
+            >
+              RESET
+            </button>
+          </article>
+        </section>
+      </div>
     </main>
   );
 }
