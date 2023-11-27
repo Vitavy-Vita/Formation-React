@@ -2,6 +2,7 @@ import Title from "./components/Title";
 import Inputs from "./components/Inputs";
 import TipValue from "./components/TipValue";
 import Total from "./components/Total";
+import CustomTip from "./components/CustomTip";
 import { useState, useEffect } from "react";
 
 function App() {
@@ -20,33 +21,42 @@ function App() {
 
   const getValue = function (value) {
     setTipPerPeople(value);
-    console.log("value")
-    return value;
+    console.log(value);
   };
-
-  useEffect(() => {
-    displayTotal();
-  }, [sumEntered, numberOfPeople, tipPerPeople]);
 
   const displayTotal = function () {
-    if (sumEntered === "" || numberOfPeople === 0) {
-      return totalPerPerson;
+    if (sumEntered && tipPerPeople && numberOfPeople) {
+      const bill = parseFloat(sumEntered);
+      const people = parseFloat(numberOfPeople);
+      const tip = tipPerPeople;
+      const totalTips = bill * (tip / 100);
+      const total = ((bill / people) + totalTips).toFixed(2);
+
+
+      return total;
+    } else {
+      return "0";
     }
-
-    const bill = parseFloat(sumEntered);
-    const people = parseFloat(numberOfPeople);
-    const tip = tipValues.key
-    const totalTips = bill * (tip / 100);
-    setTipPerPeople(totalTips / people);
-    console.log(tip);
-    const total = (bill / people).toFixed(2) + tip;
-    setTotalPerPerson(total);
-
-    return total;
   };
+
+  const displayTotalTip = function(){
+    if (sumEntered && tipPerPeople && numberOfPeople) {
+      const bill = parseFloat(sumEntered);
+      const people = parseFloat(numberOfPeople);
+      const tip = tipPerPeople;
+      const totalTips = bill * (tip / 100);
+      console.log(tip);
+      const total = (totalTips / people).toFixed(2)
+
+      return total;
+    } else {
+      return "0";
+    }
+  }
 
   const handleReset = function () {
     setTotalPerPerson("0.00");
+    setTipPerPeople("0.00");
     setSumEntered("");
     setNumberOfPeople(1);
   };
@@ -64,11 +74,11 @@ function App() {
           />
           <h2 className="text-start mx-5">Select Tip %</h2>
           <section className="grid grid-cols-3 gap-4">
-            {tipValues.map((value, index) => (
+            {tipValues.map((value) => (
               <TipValue
-                key={index}
+                key={value}
                 value={value}
-                onClick={() => getValue(value)}
+                onClickHandler={() => getValue(value)}
               />
             ))}
           </section>
@@ -81,13 +91,13 @@ function App() {
         </article>
         <article className="bg-blue-500 m-10 py-20">
           <Total
-            value={tipPerPeople}
+            value={displayTotalTip()}
             title={`Tip Amount
         /person`}
           />
           <Total
             onChange={displayTotal}
-            value={totalPerPerson}
+            value={displayTotal()}
             title={`Total
         /person`}
           />
