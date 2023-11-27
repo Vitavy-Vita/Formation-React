@@ -1,9 +1,12 @@
 import Inputs from "./components/Inputs";
 import Liste from "./components/Liste";
+import RangeSlider from 'react-range-slider-input';
+import 'react-range-slider-input/dist/style.css';
+import { FaRegCopy } from "react-icons/fa6";
 import { useState } from "react";
 function App() {
   const [password, setPassword] = useState("");
-  const [length, setLength] = useState(12);
+  const [length, setLength] = useState(0,12);
   const [includeLowercase, setIncludeLowercase] = useState(false);
   const [includeUppercase, setIncludeUppercase] = useState(false);
   const [includeNumbers, setIncludeNumbers] = useState(false);
@@ -45,6 +48,9 @@ function App() {
       <h1 className="text-white text-center ">PassSafe Maker</h1>
       <section className="bg-white w-2/4 ">
         <Inputs value={password} />
+        <FaRegCopy className="" onClick={() => {navigator.clipboard.writeText(password)}}/>
+        <h2>Character Length</h2>
+        <RangeSlider className='' value={length}/>
 
         <Liste
           options={"include Uppercase Letters"}
