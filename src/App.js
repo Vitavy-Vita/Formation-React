@@ -2,19 +2,25 @@ import Inputs from "./components/Inputs";
 import Liste from "./components/Liste";
 import { useState } from "react";
 function App() {
-
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
   const [length, setLength] = useState(12);
-  const [includeNumbers,setIncludeNumbers] = useState(true);
-  const [includeUppercase, setIncludeUppercase] = useState(true);
-  const [includeSymbols, setIncludeSymbols] = useState(true);
+  const [includeLowercase, setIncludeLowercase] = useState(false);
+  const [includeUppercase, setIncludeUppercase] = useState(false);
+  const [includeNumbers, setIncludeNumbers] = useState(false);
+  const [includeSymbols, setIncludeSymbols] = useState(false);
 
-  const radioOption = [
-    "Include Uppercase Letters",
-    "Include Lowercase Letters",
-    "Include Numbers",
-    "Include Symbols",
-  ];
+  const handleUpperCase = function () {
+    setIncludeUppercase(!includeUppercase);
+  };
+  const handleLowerCase = function () {
+    setIncludeLowercase(!includeLowercase);
+  };
+  const handleNumbers = function () {
+    setIncludeNumbers(!includeNumbers);
+  };
+  const handleSymbols = function () {
+    setIncludeSymbols(!includeSymbols);
+  };
   const generatePassword = function () {
     const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
     const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -26,25 +32,48 @@ function App() {
     if (includeNumbers) validChars += numberChars;
     if (includeSymbols) validChars += specialChars;
 
-    const newPassword =  Array.from({length}, () => {
-      const randomIndex = Math.floor(Math.random()* validChars.length)
-      return validChars.charAt(randomIndex)
-    }).join('')
+    const newPassword = Array.from({ length }, () => {
+      const randomIndex = Math.floor(Math.random() * validChars.length);
+      return validChars.charAt(randomIndex);
+    }).join("");
 
-    setPassword(newPassword)
+    setPassword(newPassword);
   };
 
   return (
     <main className="bg-blue min-h-screen mx:auto">
       <h1 className="text-white text-center ">PassSafe Maker</h1>
       <section className="bg-white w-2/4 ">
-      <Inputs value={password}/>
-      {radioOption.map((options) => (
-        <Liste key={options} options={options} />
-        ))}
-        <button onClick={generatePassword}
-        className="bg-blue text-white p-2 m-2 rounded">Generate Password</button>
-        </section>
+        <Inputs value={password} />
+
+        <Liste
+          options={"include Uppercase Letters"}
+          onChange={handleUpperCase}
+          value={includeUppercase}
+        />
+        <Liste
+          options={"include Lowercase Letters"}
+          onChange={handleLowerCase}
+          value={includeLowercase}
+        />
+        <Liste
+          options={"include Numbers"}
+          onChange={handleNumbers}
+          value={includeNumbers}
+        />
+        <Liste
+          options={"include Symbols"}
+          onChange={handleSymbols}
+          value={includeSymbols}
+        />
+
+        <button
+          onClick={generatePassword}
+          className="bg-blue text-white p-2 m-2 rounded"
+        >
+          Generate Password
+        </button>
+      </section>
     </main>
   );
 }
