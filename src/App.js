@@ -20,15 +20,19 @@ function App() {
   };
 
   const getValue = function (value) {
+    setCustomTip("")
     setTipPerPeople(value);
     console.log(value);
   };
   const getCustomValue = function (event) {
+    setTipPerPeople(0)
+
     const customTipValue = event.target.value;
     const customTipPercentage = parseFloat(customTipValue);
 
     if (!isNaN(customTipPercentage)) {
       setTipPerPeople(customTipPercentage);
+      setCustomTip(customTipPercentage);
     } else {
       setTipPerPeople(0);
     }
@@ -87,6 +91,7 @@ function App() {
                 <TipValue
                   key={value}
                   value={value}
+                  tip={tipPerPeople}
                   onClickHandler={() => getValue(value)}
                 />
               ))}
@@ -94,6 +99,7 @@ function App() {
                 placeholder={"CUSTOM"}
                 onSubmitHandler={getCustomValue}
                 value={customTip}
+                tipPerPeople={tipPerPeople}
               />
             </section>
             <Inputs
