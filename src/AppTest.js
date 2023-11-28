@@ -11,7 +11,10 @@ const reducer = function (state, action) {
     case "onChangeTasks":
       return { ...state, textEntered: action.payload };
     case "onChangeSearch":
-      return { ...state, searchText: action.payload };
+      if(state.tasksFilter && state.searchText !== ''){
+        return {...state, tasksFilter: null, searchText: action.payload }
+      }
+      return { ...state, searchText: action.payload  };
     case "getLocalStorage":
       const tasksLocalStorage = JSON.parse(localStorage.getItem("my-tasks"));
       return { ...state, tasks: tasksLocalStorage };
@@ -20,29 +23,42 @@ const reducer = function (state, action) {
       localStorage.setItem("my-tasks", JSON.stringify(newArr));
       return { tasks: newArr, textEntered: "" };
     case "removeTasks":
-      const arr= [...state.tasks];
-      arr.splice(action.payload, 1)
-      localStorage.setItem('my-tasks', JSON.stringify(arr));
+      const arr = [...state.tasks];
+      arr.splice(action.payload, 1);
+      localStorage.setItem("my-tasks", JSON.stringify(arr));
       return { ...state, tasks: arr };
-    
+    case "searchTasks":
+      const searchArr = state.tasks.filter((searchItem) => {
+        return searchItem
+          .toLowerCase()
+          .includes(state.searchText.toLowerCase());
+      });
+      return { ...state, tasksFilter: searchArr };
     default:
       break;
   }
 };
 
 function App() {
-  const initialValue = { tasks: [], textEntered: "" };
+  const initialValue = { tasks: [], textEntered: "", searchText: "",tasksFilter: null };
   const [state, dispatch] = useReducer(reducer, initialValue);
 
   useEffect(() => {
     dispatch({ type: "getLocalStorage" });
   }, []);
 
+  console.log(state);
+
   const addTaskHandler = function (e) {
     e.preventDefault();
     dispatch({ type: "addTask" });
   };
-
+  const searchTaskHandler = function (e) {
+    e.preventDefault();
+    // if (searchArr==='') ? tasks
+    dispatch({ type: "searchTasks", payload: e.target.value });
+  };
+const tasks = state.tasksFilter || state.tasks
   return (
     <main className="bg-slate-900 min-h-screen pt-5 px-10">
       <img src={"/images/logo.png"} alt="image" className="block mx-auto" />
@@ -70,7 +86,7 @@ function App() {
         />
       </form>
       <form
-        // onSubmit={handleSearch}
+        onSubmit={searchTaskHandler}
         className="flex justify-center items-center gap-4"
       >
         <input
@@ -80,7 +96,6 @@ function App() {
           value={state.searchText}
           type="text"
           className="w-full md:w-2/3"
-
         />
         <input
           type="submit"
@@ -91,7 +106,7 @@ function App() {
 
       <section className="mt-10 md:w-2/3 mx-auto ">
         <ul className="flex flex-col space-y-5">
-          {state.tasks.map((item, index) => (
+          {tasks.map((item, index) => (
             <TaskItem
               key={index}
               name={item}
