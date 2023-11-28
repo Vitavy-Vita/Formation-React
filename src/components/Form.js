@@ -10,7 +10,9 @@ export default function Form(props) {
           value={props.value}
           type="text"
           className="w-full md:w-2/3"
+          ref={props.ref}
         />
+        
         <input
           type="submit"
           value="Add Task"

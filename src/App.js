@@ -1,12 +1,12 @@
 import TaskItem from "./components/TaskItem";
 import Form from "./components/Form";
 import Logo from "./components/Logo";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 function App() {
   const [textEntered, setTextEntered] = useState("");
   const [tasks, setTasks] = useState([]);
-
+  const inputRef = useRef(null)
   useEffect(() => {
     const taskList = JSON.parse(localStorage.getItem("my-tasks"));
 
@@ -18,7 +18,7 @@ function App() {
   };
   const addTaskHandler = function (event) {
     event.preventDefault();
-    const newArr = [...tasks, textEntered];
+    const newArr = [...tasks, inputRef.current.value];
     setTasks(newArr);
 
     localStorage.setItem("my-tasks", JSON.stringify(newArr));
@@ -39,7 +39,9 @@ function App() {
         onChangeHandler={onChangeHandler}
         addTaskHandler={addTaskHandler}
         value={textEntered}
+        ref={inputRef}
       />
+      
 
       <section className="mt-10 md:w-2/3 mx-auto ">
         <ul className="flex flex-col space-y-5">

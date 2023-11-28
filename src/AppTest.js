@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useReducer } from "react";
+import { useReducer, useEffect } from "react";
 import TaskItem from "./components/TaskItem";
 
 /* Create reducer qui prend en paramétre de fonction
@@ -8,13 +8,23 @@ import TaskItem from "./components/TaskItem";
 */
 const reducer = function (state, action) {
   switch (action.type) {
-    case "onChange":
+    case "onChangeTasks":
       return { ...state, textEntered: action.payload };
-
+    case "onChangeSearch":
+      return { ...state, searchText: action.payload };
+    case "getLocalStorage":
+      const tasksLocalStorage = JSON.parse(localStorage.getItem("my-tasks"));
+      return { ...state, tasks: tasksLocalStorage };
     case "addTask":
-      return { tasks: [...state.tasks, state.textEntered], textEntered: "" };
+      const newArr = [...state.tasks, state.textEntered];
+      localStorage.setItem("my-tasks", JSON.stringify(newArr));
+      return { tasks: newArr, textEntered: "" };
     case "removeTasks":
-      return { ...state, tasks: state.tasks.splice(action.payload, 1) };
+      const arr= [...state.tasks];
+      arr.splice(action.payload, 1)
+      localStorage.setItem('my-tasks', JSON.stringify(arr));
+      return { ...state, tasks: arr };
+    
     default:
       break;
   }
@@ -23,6 +33,10 @@ const reducer = function (state, action) {
 function App() {
   const initialValue = { tasks: [], textEntered: "" };
   const [state, dispatch] = useReducer(reducer, initialValue);
+
+  useEffect(() => {
+    dispatch({ type: "getLocalStorage" });
+  }, []);
 
   const addTaskHandler = function (e) {
     e.preventDefault();
@@ -42,7 +56,7 @@ function App() {
           // Avec le paramétre `event` on peut accéder à l'élément `input`
           // Donc à sa valeur `event.target.value`
           onChange={(e) =>
-            dispatch({ type: "onChange", payload: e.target.value })
+            dispatch({ type: "onChangeTasks", payload: e.target.value })
           }
           value={state.textEntered}
           type="text"
@@ -52,6 +66,25 @@ function App() {
         <input
           type="submit"
           value="Add Task"
+          className="text-yellow-400 text-2xl"
+        />
+      </form>
+      <form
+        // onSubmit={handleSearch}
+        className="flex justify-center items-center gap-4"
+      >
+        <input
+          onChange={(e) =>
+            dispatch({ type: "onChangeSearch", payload: e.target.value })
+          }
+          value={state.searchText}
+          type="text"
+          className="w-full md:w-2/3"
+
+        />
+        <input
+          type="submit"
+          value="Search Task"
           className="text-yellow-400 text-2xl"
         />
       </form>
