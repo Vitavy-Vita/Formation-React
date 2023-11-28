@@ -22,11 +22,16 @@ const reducer = function (state, action) {
       const newArr = [...state.tasks, state.textEntered];
       localStorage.setItem("my-tasks", JSON.stringify(newArr));
       return { tasks: newArr, textEntered: "" };
-    case "removeTasks":
-      const arr = [...state.tasks];
-      arr.splice(action.payload, 1);
-      localStorage.setItem("my-tasks", JSON.stringify(arr));
-      return { ...state, tasks: arr };
+      case "removeTasks":
+        const originalArr = [...state.tasks];
+        const filteredArr = state.tasksFilter ? [...state.tasksFilter] : originalArr;
+        filteredArr.splice(action.payload, 1);
+        localStorage.setItem("my-tasks", JSON.stringify(filteredArr));
+        return {
+          ...state,
+          tasks: originalArr,
+          tasksFilter: state.tasksFilter ? filteredArr : null,
+        };
     case "searchTasks":
       const searchArr = state.tasks.filter((textEntered) => {
         return textEntered
