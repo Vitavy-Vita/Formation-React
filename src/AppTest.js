@@ -8,9 +8,9 @@ import TaskItem from "./components/TaskItem";
 */
 const reducer = function (state, action) {
   switch (action.type) {
-    // case "onChange":
-    //   return { ...state, textEntered: action.payload };
+
     case "onChange":
+      
       if (state.tasksFilter && action.payload === "") {
         return { ...state, tasksFilter: null, textEntered: action.payload };
       }
@@ -40,11 +40,14 @@ const reducer = function (state, action) {
 };
 
 function App() {
+  
   const initialValue = {
     tasks: [],
     textEntered: "",
     tasksFilter: null,
+    
   };
+  
   const [state, dispatch] = useReducer(reducer, initialValue);
 
   useEffect(() => {
