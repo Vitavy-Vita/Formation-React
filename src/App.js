@@ -39,9 +39,7 @@ function App() {
       <h1 className="text-white text-center ">PassSafe Maker</h1>
       <section className="bg-white w-2/4 ">
       <Inputs value={password}/>
-      {radioOption.map((options) => (
-        <Liste key={options} options={options} />
-        ))}
+
         <button onClick={generatePassword}
         className="bg-blue text-white p-2 m-2 rounded">Generate Password</button>
         </section>
