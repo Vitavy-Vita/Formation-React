@@ -45,7 +45,7 @@ function App() {
     setPassword(newPassword);
   };
   function valuetext(value) {
-    return `${value}°C`;
+    return `${value}`;
   }
   return (
     <main className="bg-blue min-h-screen mx:auto">
