@@ -8,13 +8,13 @@ import TaskItem from "./components/TaskItem";
 */
 const reducer = function (state, action) {
   switch (action.type) {
-    case "onChangeTasks":
-      return { ...state, textEntered: action.payload };
-    case "onChangeSearch":
+    // case "onChange":
+    //   return { ...state, textEntered: action.payload };
+    case "onChange":
       if (state.tasksFilter && action.payload === "") {
-        return { ...state, tasksFilter: null, searchText: action.payload };
+        return { ...state, tasksFilter: null, textEntered: action.payload };
       }
-      return { ...state, searchText: action.payload };
+      return { ...state, textEntered: action.payload };
     case "getLocalStorage":
       const tasksLocalStorage = JSON.parse(localStorage.getItem("my-tasks"));
       return { ...state, tasks: tasksLocalStorage };
@@ -28,10 +28,10 @@ const reducer = function (state, action) {
       localStorage.setItem("my-tasks", JSON.stringify(arr));
       return { ...state, tasks: arr };
     case "searchTasks":
-      const searchArr = state.tasks.filter((searchItem) => {
-        return searchItem
+      const searchArr = state.tasks.filter((textEntered) => {
+        return textEntered
           .toLowerCase()
-          .includes(state.searchText.toLowerCase());
+          .includes(state.textEntered.toLowerCase());
       });
       return { ...state, tasksFilter: searchArr };
     default:
@@ -43,7 +43,6 @@ function App() {
   const initialValue = {
     tasks: [],
     textEntered: "",
-    searchText: "",
     tasksFilter: null,
   };
   const [state, dispatch] = useReducer(reducer, initialValue);
@@ -71,7 +70,7 @@ function App() {
         onSubmit={addTaskHandler}
         className="flex justify-center items-center gap-4"
       >
-        <input
+        {/* <input
           // A chaque saisi sur le input la fonction est rééxecuter
           // Avec le paramétre `event` on peut accéder à l'élément `input`
           // Donc à sa valeur `event.target.value`
@@ -82,7 +81,7 @@ function App() {
           type="text"
           className="w-full md:w-2/3"
 
-        />
+        /> */}
         <input
           type="submit"
           value="Add Task"
@@ -90,12 +89,12 @@ function App() {
         />
       </form>
       <form
-        onChange={searchTaskHandler}
+        onClick={searchTaskHandler}
         className="flex justify-center items-center gap-4"
       >
         <input
           onChange={(e) =>
-            dispatch({ type: "onChangeSearch", payload: e.target.value })
+            dispatch({ type: "onChange", payload: e.target.value })
           }
           value={state.searchText}
           type="text"
