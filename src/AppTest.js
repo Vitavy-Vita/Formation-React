@@ -11,10 +11,10 @@ const reducer = function (state, action) {
     case "onChangeTasks":
       return { ...state, textEntered: action.payload };
     case "onChangeSearch":
-      if(state.tasksFilter && state.searchText !== ''){
-        return {...state, tasksFilter: null, searchText: action.payload }
+      if (state.tasksFilter && action.payload === "") {
+        return { ...state, tasksFilter: null, searchText: action.payload };
       }
-      return { ...state, searchText: action.payload  };
+      return { ...state, searchText: action.payload };
     case "getLocalStorage":
       const tasksLocalStorage = JSON.parse(localStorage.getItem("my-tasks"));
       return { ...state, tasks: tasksLocalStorage };
@@ -40,7 +40,12 @@ const reducer = function (state, action) {
 };
 
 function App() {
-  const initialValue = { tasks: [], textEntered: "", searchText: "",tasksFilter: null };
+  const initialValue = {
+    tasks: [],
+    textEntered: "",
+    searchText: "",
+    tasksFilter: null,
+  };
   const [state, dispatch] = useReducer(reducer, initialValue);
 
   useEffect(() => {
@@ -55,10 +60,9 @@ function App() {
   };
   const searchTaskHandler = function (e) {
     e.preventDefault();
-    // if (searchArr==='') ? tasks
     dispatch({ type: "searchTasks", payload: e.target.value });
   };
-const tasks = state.tasksFilter || state.tasks
+  const tasks = state.tasksFilter || state.tasks;
   return (
     <main className="bg-slate-900 min-h-screen pt-5 px-10">
       <img src={"/images/logo.png"} alt="image" className="block mx-auto" />
@@ -77,7 +81,7 @@ const tasks = state.tasksFilter || state.tasks
           value={state.textEntered}
           type="text"
           className="w-full md:w-2/3"
-          // ref={inputRef}
+
         />
         <input
           type="submit"
@@ -86,7 +90,7 @@ const tasks = state.tasksFilter || state.tasks
         />
       </form>
       <form
-        onSubmit={searchTaskHandler}
+        onChange={searchTaskHandler}
         className="flex justify-center items-center gap-4"
       >
         <input
