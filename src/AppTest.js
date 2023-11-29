@@ -21,6 +21,7 @@ const reducer = function (state, action) {
         return { ...state };
       }
     case "addTask":
+      
       const newArr = [...state.tasks, state.textEntered];
       localStorage.setItem("my-tasks", JSON.stringify(newArr));
       return { tasks: newArr, textEntered: "" };
@@ -98,7 +99,7 @@ function App() {
           className="text-yellow-400 text-2xl"
         />
       </form>
-      
+
       <form
         onClick={searchTaskHandler}
         className="flex justify-center items-center gap-4"
