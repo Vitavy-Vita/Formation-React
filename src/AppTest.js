@@ -8,9 +8,7 @@ import TaskItem from "./components/TaskItem";
 */
 const reducer = function (state, action) {
   switch (action.type) {
-
     case "onChange":
-      
       if (state.tasksFilter && action.payload === "") {
         return { ...state, tasksFilter: null, textEntered: action.payload };
       }
@@ -26,16 +24,20 @@ const reducer = function (state, action) {
       const newArr = [...state.tasks, state.textEntered];
       localStorage.setItem("my-tasks", JSON.stringify(newArr));
       return { tasks: newArr, textEntered: "" };
-      case "removeTasks":
-        const originalArr = [...state.tasks];
-        const filteredArr = state.tasksFilter ? [...state.tasksFilter] : originalArr;
-        filteredArr.splice(action.payload, 1);
-        localStorage.setItem("my-tasks", JSON.stringify(filteredArr));
-        return {
-          ...state,
-          tasks: originalArr,
-          tasksFilter: state.tasksFilter ? filteredArr : null,
-        };
+    case "removeTasks":
+      const originalArr = [...state.tasks];
+      const filteredArr = state.tasksFilter
+        ? [...state.tasksFilter]
+        : originalArr;
+
+      filteredArr.splice(action.payload.index, 1);
+      originalArr.splice(originalArr.indexOf(action.payload.item), 1);
+      localStorage.setItem("my-tasks", JSON.stringify(originalArr));
+      return {
+        ...state,
+        tasks: originalArr,
+        tasksFilter: state.tasksFilter ? filteredArr : null,
+      };
     case "searchTasks":
       const searchArr = state.tasks.filter((textEntered) => {
         return textEntered
@@ -49,21 +51,17 @@ const reducer = function (state, action) {
 };
 
 function App() {
-  
   const initialValue = {
     tasks: [],
     textEntered: "",
     tasksFilter: null,
-    
   };
-  
+
   const [state, dispatch] = useReducer(reducer, initialValue);
 
   useEffect(() => {
     dispatch({ type: "getLocalStorage" });
   }, []);
-
-
 
   const addTaskHandler = function (e) {
     e.preventDefault();
@@ -126,7 +124,7 @@ function App() {
               key={index}
               name={item}
               removeItem={() =>
-                dispatch({ type: "removeTasks", payload: index })
+                dispatch({ type: "removeTasks", payload: { index, item } })
               }
             ></TaskItem>
           ))}
