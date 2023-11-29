@@ -17,7 +17,11 @@ const reducer = function (state, action) {
       return { ...state, textEntered: action.payload };
     case "getLocalStorage":
       const tasksLocalStorage = JSON.parse(localStorage.getItem("my-tasks"));
-      return { ...state, tasks: tasksLocalStorage };
+      if (tasksLocalStorage) {
+        return { ...state, tasks: tasksLocalStorage };
+      } else {
+        return { ...state };
+      }
     case "addTask":
       const newArr = [...state.tasks, state.textEntered];
       localStorage.setItem("my-tasks", JSON.stringify(newArr));
@@ -59,7 +63,7 @@ function App() {
     dispatch({ type: "getLocalStorage" });
   }, []);
 
-  console.log(state);
+
 
   const addTaskHandler = function (e) {
     e.preventDefault();
