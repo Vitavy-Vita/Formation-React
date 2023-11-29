@@ -98,6 +98,7 @@ function App() {
           className="text-yellow-400 text-2xl"
         />
       </form>
+      
       <form
         onClick={searchTaskHandler}
         className="flex justify-center items-center gap-4"
