@@ -1,6 +1,7 @@
 import { useReducer, useEffect } from "react";
 
 import TaskItem from "./components/TaskItem";
+// import CompleteTaskItem from "./components/CompleteTasks";
 
 /* Create reducer qui prend en paramétre de fonction
 `state` = c'est un objet qui représente les états locaux
@@ -29,11 +30,12 @@ const reducer = function (state, action) {
     case "addTask":
       const newArr = [...state.tasks, state.textEntered];
       if (state.textEntered === "") {
-        console.log(state);
         return state;
       }
       localStorage.setItem("my-tasks", JSON.stringify(newArr));
       return { tasks: newArr, textEntered: "" };
+
+
 
     case "removeTasks":
       const originalArr = [...state.tasks];
@@ -61,7 +63,6 @@ const reducer = function (state, action) {
         tasksFilter: state.tasksFilter ? filteredArr : null,
       };
 
-
     case "searchTasks":
       const searchArr = state.tasks.filter((textEntered) => {
         return textEntered
@@ -69,6 +70,12 @@ const reducer = function (state, action) {
           .includes(state.textEntered.toLowerCase());
       });
       return { ...state, tasksFilter: searchArr };
+
+    case "handleCheck":
+      const {index, checked} = action.payload
+      const checkedTasks = {...state.checkedTasks, [index]: checked}
+      return { ...state, checkedTasks };
+
     default:
       break;
   }
@@ -89,6 +96,7 @@ function App() {
     e.preventDefault();
     dispatch({ type: "searchTasks", payload: e.target.value });
   };
+
   const tasks = state.tasksFilter || state.tasks;
   return (
     <main className="bg-slate-900 min-h-screen pt-5 px-10">
@@ -142,6 +150,7 @@ function App() {
             <TaskItem
               key={index}
               name={item}
+
               removeItem={() =>
                 dispatch({ type: "removeTasks", payload: { index, item } })
               }
@@ -149,6 +158,22 @@ function App() {
           ))}
         </ul>
       </section>
+
+      {/* WORK IN PROGRESS */}
+      {/* <section>
+        <h2 className="text-center my-5 text-slate-100 text-xl">Complete tasks</h2>
+        <ul>
+          {completeTasks.map((item, index) => (
+
+        <CompleteTaskItem
+        key={index}
+        name={item}
+        removeItem={() =>
+          dispatch({ type: "removeTasks", payload: { index, item } })
+        }/>
+        ))}
+        </ul>
+      </section> */}
     </main>
   );
 }
