@@ -1,4 +1,5 @@
 import { useReducer, useEffect } from "react";
+
 import TaskItem from "./components/TaskItem";
 
 /* Create reducer qui prend en paramétre de fonction
@@ -75,11 +76,11 @@ function App() {
   const tasks = state.tasksFilter || state.tasks;
   return (
     <main className="bg-slate-900 min-h-screen pt-5 px-10">
-      <img src={"/images/logo.png"} alt="image" className="block mx-auto" />
+      <img src={"/img/logo.png"} alt="image" className="block mx-auto" />
 
       <form
         onSubmit={addTaskHandler}
-        className="flex justify-center items-center gap-4"
+        className="flex justify-around items-center gap-4"
       >
         {/* <input
           // A chaque saisi sur le input la fonction est rééxecuter
@@ -98,6 +99,7 @@ function App() {
           value="Add Task"
           className="text-yellow-400 text-2xl"
         />
+        
       </form>
 
       <form

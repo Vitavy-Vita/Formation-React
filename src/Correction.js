@@ -105,7 +105,7 @@ useffect sera exécute au montage du composant
         TODO APP
       </h1> */}
       {/*  <img src={logo} alt="image" className="block mx-auto" /> */}
-      <img src={'/images/logo.png'} alt="image" className="block mx-auto" />
+      <img src={'/img/logo.png'} alt="image" className="block mx-auto" />
 
       {/* Input pour taper une tache */}
       <form
