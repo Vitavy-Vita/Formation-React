@@ -9,6 +9,10 @@ export default function DetailBlog() {
   voir App.js (<Route path=":id" element={<DetailBlog />} />)
   */
   const params = useParams();
+
+   /*
+  `useNavigate` permet de naviguer d'un chemin à un autre
+  */
   const navigate = useNavigate();
   const character = data[params.id];
   const goBack = () => navigate("/blogs");
