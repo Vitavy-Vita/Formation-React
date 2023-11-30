@@ -22,19 +22,48 @@ const reducer = function (state, action) {
         return { ...state };
       }
     case "addTask":
-      
       const newArr = [...state.tasks, state.textEntered];
       localStorage.setItem("my-tasks", JSON.stringify(newArr));
       return { tasks: newArr, textEntered: "" };
+
+    // NOT WORING
+    // case "removeTasks":
+    //   const originalArr = [...state.tasks];
+    //   const filteredArr = state.tasksFilter
+    //     ? [...state.tasksFilter]
+    //     : originalArr;
+
+    //   filteredArr.splice(action.payload.index, 1);
+    //   originalArr.splice(originalArr.indexOf(action.payload.item), 1);
+    //   localStorage.setItem("my-tasks", JSON.stringify(originalArr));
+    //   return {
+    //     ...state,
+    //     tasks: originalArr,
+    //     tasksFilter: state.tasksFilter ? filteredArr : null,
+    //   };
+
+    // WORKING
+    // In this modified code, it checks if the index of the item to be removed is found in originalArr before attempting to remove it. This way, it ensures that only the selected input is removed from both originalArr and filteredArr. Additionally, it checks for the existence of the item in filteredArr when there is a filter applied.
     case "removeTasks":
       const originalArr = [...state.tasks];
       const filteredArr = state.tasksFilter
         ? [...state.tasksFilter]
         : originalArr;
 
-      filteredArr.splice(action.payload.index, 1);
-      originalArr.splice(originalArr.indexOf(action.payload.item), 1);
-      localStorage.setItem("my-tasks", JSON.stringify(originalArr));
+      const removedIndex = originalArr.indexOf(action.payload.item);
+
+      if (removedIndex !== -1) {
+        originalArr.splice(removedIndex, 1);
+        localStorage.setItem("my-tasks", JSON.stringify(originalArr));
+      }
+
+      if (state.tasksFilter) {
+        const filteredIndex = filteredArr.indexOf(action.payload.item);
+        if (filteredIndex !== -1) {
+          filteredArr.splice(filteredIndex, 1);
+        }
+      }
+
       return {
         ...state,
         tasks: originalArr,
@@ -99,7 +128,6 @@ function App() {
           value="Add Task"
           className="text-yellow-400 text-2xl"
         />
-        
       </form>
 
       <form
