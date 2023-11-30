@@ -26,10 +26,10 @@ const reducer = function (state, action) {
       } else {
         return { ...state };
       }
-      
     case "addTask":
       const newArr = [...state.tasks, state.textEntered];
       if (state.textEntered === "") {
+        console.log(state);
         return state;
       }
       localStorage.setItem("my-tasks", JSON.stringify(newArr));
@@ -125,7 +125,7 @@ function App() {
           onChange={(e) =>
             dispatch({ type: "onChange", payload: e.target.value })
           }
-          value={state.searchText}
+          value={state.textEntered}
           type="text"
           className="w-full md:w-2/3"
         />
