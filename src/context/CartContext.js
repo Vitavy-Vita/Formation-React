@@ -1,16 +1,16 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from "react";
 
 //1) Creer un context
 const CartContext = createContext();
 
 const carts = [
   {
-    name: 'pomme',
+    name: "pomme",
     quantity: 2,
     price: 1.9,
   },
   {
-    name: 'banane',
+    name: "banane",
     quantity: 8,
     price: 1.4,
   },
@@ -25,7 +25,7 @@ export default function CartProvider(props) {
     for (const item of cartUser) {
       total += item.quantity * item.price;
     }
-/* 
+    /* 
     `toFixed` permet de définir le nombre
 
 */
@@ -46,7 +46,8 @@ export default function CartProvider(props) {
         cartUser: cartUser,
         totalCart: totalCart,
         quantityHandler: quantityHandler,
-      }}>
+      }}
+    >
       {props.children}
     </CartContext.Provider>
   );
