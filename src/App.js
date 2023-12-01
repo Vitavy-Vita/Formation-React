@@ -28,12 +28,9 @@ On ne peut pas utiliser le context sur le composant qui l'utilise
         </CartProvider>
         <CounterProvider>
           <div>
-            <h2>My Counter</h2>
-
             <DisplayCounter />
           </div>
         </CounterProvider>
-
       </main>
     </AccordionProvider>
   );
