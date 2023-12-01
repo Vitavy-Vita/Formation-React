@@ -2,8 +2,8 @@ import './index.css';
 
 function App() {
   return (
-    <div >
-
+    <div className='text-indigo-500'>
+      Hello
     </div>
   );
 }
