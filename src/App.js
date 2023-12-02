@@ -3,7 +3,7 @@ import AccordionProvider from "./context/AccordionContext";
 import CartProvider from "./context/CartContext";
 import DisplayCarts from "./components/Card/DisplayCarts";
 import CounterProvider from "./context/CounterContext";
-import DisplayCounter from "./components/Card/DisplayCounter";
+import DisplayCounter from "./components/Counter/DisplayCounter";
 //rfc
 export default function App() {
   /* 
